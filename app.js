@@ -9,6 +9,8 @@ const { create } = require("express-handlebars");
 var app = express();
 var fileUpload=require('express-fileupload')
 const bodyParser = require('body-parser')
+var db=require('./config/connection');
+const { defaultConfiguration } = require('express/lib/application');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -32,10 +34,13 @@ app.use(fileUpload())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}))
 // endeed
-
-
+db.connect((err)=>{
+  if(err) console.log("connection error while database connection processes"+err)
+  else console.log("database connected to port 27017 through server (mongodb:username@amalprasad0)[Operation Successfully completed]")
+})
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
