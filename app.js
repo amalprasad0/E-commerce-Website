@@ -10,6 +10,7 @@ var app = express();
 var fileUpload=require('express-fileupload')
 const bodyParser = require('body-parser')
 var db=require('./config/connection');
+var session=require('express-session')
 const { defaultConfiguration } = require('express/lib/application');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
+app.use(session({secret:"key",cookie:{maxAge:600000}}))
 // body praser added
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}))
